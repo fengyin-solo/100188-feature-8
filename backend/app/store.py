@@ -30,7 +30,8 @@ class Store:
     def overview(self) -> dict[str, object]:
         modules: list[dict[str, object]] = []
         for name in self.module_names():
-            rows = self.rows(name)
+            # 已作废是终态历史分组，不进入新增/待处理/异常任何统计口径。
+            rows = [row for row in self.rows(name) if row.get("status") != "已作废"]
             modules.append({
                 "name": name,
                 "created": len(rows),
